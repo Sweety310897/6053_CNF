@@ -11,25 +11,17 @@ def main():
 	s.send(input().encode())
 	threading.Thread(target = sender, args = ()).start()
 	while True:
-		try:
-			msg = s.recv(1024).decode()
-			print(msg)
-			if msg == "You successfully exited your chat,Thank you ! ":
-				os.kill(os.getpid(), signal.CTRL_BREAK_EVENT)
-			if not msg:
-				continue
-
-		except:
-			print("Oops!, Host server Closed by admin.")
-			break
+		msg = s.recv(1024).decode()
+		print(msg)
+		if not msg:
+			continue
 	s.close()
 def sender():
 	while True:
-		msg = input("->")
+		msg = input("give input")
 		if not msg:
 			continue
 		s.send(msg.encode())
 	s.close()
-
 if __name__ == '__main__':
 	main()

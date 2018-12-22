@@ -34,9 +34,9 @@ def Messenger(conn, UserName):
         while conn in clientDict:
             msg = conn.recv(1024).decode()
             if msg == "QUIT":
-                msg = UserName+ " exited the chat !"
+                msg = UserName+ "exited the chat !"
                 Broadcast(conn, msg)
-                conn.send("You successfully exited your chat,Thank you ! ".encode())
+                conn.send("You successfully exited your chat".encode())
                 clientDict.pop(conn)
                 check()
                 return 1
@@ -55,35 +55,27 @@ def check():
             os.kill(os.getpid(), signal.CTRL_BREAK_EVENT)
 def admin():
     while True:
-        msg = input("-> ")
+        msg = input("give input")
         if not msg:
             continue
         if msg == "QUIT":
-            Notifier("Server will be shut down in 3 seconds! ")
-            time.sleep(3)
+            Notifier("Server will be shut down for 2 seconds! ")
+            time.sleep(2)
             print("server closed")
-            os.kill(os.getpid(), signal.CTRL_BREAK_EVENT)
             break
         else:
             Notifier(msg)
-
-
 def Broadcast(conn, msg):
     keys = clientDict.keys()
     print(msg)
     for connection in keys:
         if conn != connection:
             connection.send(msg.encode())
-
-
 def Notifier(msg):
     msg = "Admin: "+ msg+ " "
     keys = clientDict.keys()
     print(msg)
     for connection in keys:
         connection.send(msg.encode())
-
-
-
 if __name__ == '__main__':
     main()
